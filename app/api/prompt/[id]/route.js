@@ -31,7 +31,7 @@ export const PATCH = async(request, {params}) => {
         await existingPrompt.save();
         return new Response(JSON.stringify(existingPrompt), {status:200});
     } catch (error) {
-        return new Response("Failed to update prompt", {status:500})
+        return new Response("Failed to update prompt", {status:500});
     }
 
 }
@@ -40,7 +40,10 @@ export const PATCH = async(request, {params}) => {
 export const DELETE = async (request, {params})=>{
     try {
         await connectToDB();
-    } catch (error) {
         
-    }
+        await Prompt.findByIdandRemove(params.id);
+        return new Response("Prompt deleted successfully", {status:200});
+    } catch (error) {
+        return new Response("Failed to delete prompt", {status:500});
+    } 
 }
